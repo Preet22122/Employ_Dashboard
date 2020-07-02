@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function Employdetails() {
+            var xml=new XMLHttpRequest();
+            xml.onreadystatechange=function () {
+            if(xml.readyState==4 && xml.status==200){
+               // var response=xml.responseText.trim();
+                ans=response
+               // alert(response[0]);
+                var response=JSON.parse(xml.response);
+                if(response.length==0){
+                   document.getElementById('divorders').innerHTML="<h4>No any Employ present with this name</h4>";
+                }
+                else{
+                     console.log(response);
+                var ans="";
+                ans+="<table class=\"table table-striped\">\n" +
+                    "                <thead>\n" +
+                    "                  <tr>\n" +
+                    "                    <th>ID</th>\n" +
+                    "                    <th>Name</th>\n" +
+                    "                    <th>Salery</th>\n" +
+                    "                      <th>Designation</th>\n" +
+                    "                      <th>Mobile No.</th>\n" +
+                    "                      <th>Gender</th>\n" +
+                    "                  </tr>\n" +
+                    "                </thead>";
+
+
+                    for (var i = 0; i < response.length; i++) {
+                        console.log(response[i][0]);ans += "<tr><td>" + response[i][0] + "</td><td>" + response[i][1] + "</td><td>" + response[i][2] + "</td><td>" + response[i][3] + "</td><td>" + response[i][4] + "</td><td>" + response[i][5] + "</td></tr>";
+                                }
+                    ans += "<tr><td>" +"--"+ "</td><td>" + "--" + "</td><td>" + "--" + "</td><td>" + "--" + "</td><td>" + "--" + "</td><td>" + "--" + "</td></tr>";
+                    ans += "</table>";
+                    document.getElementById('empdetail').innerHTML=ans;
+                }
+            }
+        };
+        xml.open("GET", "index", true);
+        xml.send();
+        }
+        ////////////////////////////
+        function Employ() {
+            var name=document.getElementById('name').value;
+            if(name==""){
+                alert('enter name');
+            }
+            else{
+            var xml=new XMLHttpRequest();
+            xml.onreadystatechange=function () {
+            if(xml.readyState==4 && xml.status==200){
+               // var response=xml.responseText.trim();
+                ans=response
+               // alert(response[0]);
+                var response=JSON.parse(xml.response);
+                if(response.length==0){
+                   document.getElementById('divorders').innerHTML="<h4>No any Employ present with this name</h4>";
+                }
+                else{
+                     console.log(response);
+                var ans="";
+                ans+="<table class=\"table table-striped\">\n" +
+                    "                <thead>\n" +
+                    "                  <tr>\n" +
+                    "                    <th>ID</th>\n" +
+                    "                    <th>Name</th>\n" +
+                    "                    <th>Salery</th>\n" +
+                    "                      <th>Designation</th>\n" +
+                    "                      <th>Mobile No.</th>\n" +
+                    "                      <th>Gender</th>\n" +
+                    "                  </tr>\n" +
+                    "                </thead>";
+
+
+                    for (var i = 0; i < response.length; i++) {
+                        console.log(response[i][0]);
+
+                        if(document.getElementById('name').value==response[i][1]) {
+                        ans += "<tr><td>" + response[i][0] + "</td><td>" + response[i][1] + "</td><td>" + response[i][2] + "</td><td>" + response[i][3] + "</td><td>" + response[i][4] + "</td><td>" + response[i][5] + "</td></tr>";
+                    }
+
+                    }
+                                        ans += "<tr><td>" +"--"+ "</td><td>" + "--" + "</td><td>" + "--" + "</td><td>" + "--" + "</td><td>" + "--" + "</td><td>" + "--" + "</td></tr>";
+
+                    ans += "</table>";
+
+
+                document.getElementById('divorders').innerHTML=ans;
+                }
+            }
+        };
+        xml.open("GET", "index", true);
+        xml.send();
+        }}
+        ///////////////////////////////////////////////////////////////
+        function addEmploy(){
+        var formdata=new FormData();
+        var controls=document.getElementById('form1').elements;
+        var count=0;
+        for(var i=0;i<controls.length;i++){
+            if(controls[i].value=="" || controls[i].name==null){
+                count=1;
+            }
+            formdata.append(controls[i].name,controls[i].value);
+            //alert(controls[i].type+" "+controls[i].name+" "+controls[i].value);
+
+        }
+        if(count==1){
+            alert('give name to all controls');
+        }
+
+        else{
+
+            var xml=new XMLHttpRequest();
+        xml.onreadystatechange=function () {
+            if(xml.readyState==4 && xml.status==200){
+                var response=xml.responseText.trim();
+                if(response=="success"){
+                    alert('Employ addedd successfully');
+                }
+                else
+                {
+                    alert("Error while Adding User");
+                }
+            }
+        };
+       xml.open("POST","add", true);
+        xml.send(formdata);
+        }}
+        /////////////////////////////////////////////
+
+    </script>
+</head>
+<body>
+<div class="container-fluid">
+  <h1>  <p class="bg-danger text-white">Welcome to Employ Dashboard</p></h1>
+    <div class="container-fluid">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 col-md-6 col-lg-4 bg-success">
+           <form id="form1">
+
+            <div class="form-group">
+                Enter Employ ID
+            <input type="text" class="form-control" name="textbox1">
+            </div>
+
+            <div class="form-group">
+                Enter Employ Name
+                <input type="text" class="form-control" name="textbox2">
+            </div>
+            <div class="form-group">
+                Enter Employ Salery
+                <input type="text" class="form-control" name="textbox3">
+            </div>
+            <div class="form-group">
+                Enter Employ designation
+                <input type="text" class="form-control" name="textbox4">
+            </div>
+            <div class="form-group">
+                Enter Employ Mobile Number
+                <input type="text" class="form-control" name="textbox5">
+            </div>
+            <div class="form-group">
+                Enter Employ Gender
+                <input type="text" class="form-control" name="textbox6">
+            </div>
+
+            <div class="form-group">
+                <input type="button" name="btn" class="btn btn-danger" value="ADD" onclick="addEmploy()" >
+            </div>
+            </form>
+      </div>
+      <div class="col-sm-9 col-md-6 col-lg-8 bg-warning">
+            <h1>Employ Details</h1>
+            <div class="form-group">
+                Enter Employ Name
+                <input type="text" placeholder="enter name" title="enter name" id="name" class="form-control">
+            </div>
+            <input type="button" value="FETCH" onclick="Employ()" class="btn btn-danger">
+      <div id="divorders" style="margin: 10px;">
+
+        </div>
+               </div>
+                </div>
+              </div>
+            </div>
+            </div>
+<div class="p-3 mb-2 bg-info text-white" >
+<div class="text-center">
+     <input type="button"  value="FETCH All" onclick="Employdetails()" class="btn btn-danger"></div>
+    <div id="empdetail" style="margin: 10px;"></div>
+ </div>
+</body>
+</html>
